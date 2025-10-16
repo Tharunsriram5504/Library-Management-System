@@ -1,0 +1,127 @@
+import java.util.*;
+
+public class Book {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        
+        ArrayList<Integer> bookId = new ArrayList<>();
+        ArrayList<String> bookTitle = new ArrayList<>();
+        ArrayList<String> bookAuthor = new ArrayList<>();
+        ArrayList<Integer> bookQty = new ArrayList<>();
+
+        boolean running = true;
+        System.out.println("=== Library Management System ===");
+
+        while (running) {
+            System.out.println("\n1. Add Book");
+            System.out.println("2. Display Books");
+            System.out.println("3. Search Book");
+            System.out.println("4. Issue Book");
+            System.out.println("5. Return Book");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine(); 
+
+            if (choice == 1) {
+               
+                System.out.print("Enter Book ID: ");
+                int id = sc.nextInt();
+                sc.nextLine();
+                System.out.print("Enter Book Title: ");
+                String title = sc.nextLine();
+                System.out.print("Enter Author Name: ");
+                String author = sc.nextLine();
+                System.out.print("Enter Quantity: ");
+                int qty = sc.nextInt();
+
+                bookId.add(id);
+                bookTitle.add(title);
+                bookAuthor.add(author);
+                bookQty.add(qty);
+
+                System.out.println("✅ Book added successfully!");
+            }
+
+            else if (choice == 2) {
+               
+                if (bookId.isEmpty()) {
+                    System.out.println("No books in the library.");
+                } else {
+                    System.out.println("\nID | Title | Author | Quantity");
+                    System.out.println("--------------------------------------");
+                    for (int i = 0; i < bookId.size(); i++) {
+                        System.out.println(bookId.get(i) + " | " + bookTitle.get(i)
+                                + " | " + bookAuthor.get(i) + " | " + bookQty.get(i));
+                    }
+                }
+            }
+
+            else if (choice == 3) {
+               
+                System.out.print("Enter Book Title or ID to search: ");
+                String search = sc.nextLine();
+                boolean found = false;
+
+                for (int i = 0; i < bookId.size(); i++) {
+                    if (bookTitle.get(i).equalsIgnoreCase(search)
+                            || String.valueOf(bookId.get(i)).equals(search)) {
+                        System.out.println("Book Found: " + bookId.get(i) + " | " + bookTitle.get(i)
+                                + " | " + bookAuthor.get(i) + " | " + bookQty.get(i));
+                        found = true;
+                    }
+                }
+                if (!found) System.out.println("❌ Book not found.");
+            }
+
+            else if (choice == 4) {
+                
+                System.out.print("Enter Book ID to issue: ");
+                int id = sc.nextInt();
+                boolean issued = false;
+
+                for (int i = 0; i < bookId.size(); i++) {
+                    if (bookId.get(i) == id) {
+                        if (bookQty.get(i) > 0) {
+                            bookQty.set(i, bookQty.get(i) - 1);
+                            System.out.println("✅ Book issued successfully.");
+                        } else {
+                            System.out.println("❌ Book not available.");
+                        }
+                        issued = true;
+                    }
+                }
+                if (!issued) System.out.println("❌ Book ID not found.");
+            }
+
+            else if (choice == 5) {
+               
+                System.out.print("Enter Book ID to return: ");
+                int id = sc.nextInt();
+                boolean returned = false;
+
+                for (int i = 0; i < bookId.size(); i++) {
+                    if (bookId.get(i) == id) {
+                        bookQty.set(i, bookQty.get(i) + 1);
+                        System.out.println("✅ Book returned successfully.");
+                        returned = true;
+                    }
+                }
+                if (!returned) System.out.println("❌ Book ID not found.");
+            }
+
+            else if (choice == 6) {
+               
+                System.out.println("👋 Exiting Library System. Goodbye!");
+                running = false;
+            }
+
+            else {
+                System.out.println("Invalid choice. Try again!");
+            }
+        }
+
+        sc.close();
+    }
+}
